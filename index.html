@@ -8,6 +8,7 @@
     <!--Reset css <link rel="stylesheet type="text/css" href="assets/css/reset.css">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Sacramento&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <title>Trivia Game</title>
 </head>
@@ -16,22 +17,22 @@
 
     <div class="container">
         <header>
+            <br>
             <div class="row">
                 <div class="col-md-12">
-                    <h1>DISNEY SONG TRIVIA GAME</h1>
+                    <h1>Disney Song Trivia Game</h1>
+                    <br>
                     <button id="start">Start Quiz!</button>
                 </div>
                 
             </div>
         </header>
         <br>
-        <br>
         <div class="row">
             <div class="col-md-12">
-                Time Left: 30s
+                <span id="timeLeft"></span>
             </div>
         </div>
-        <br>
         <br>
         <div id="theQuestion">
         <div id="quiz">
@@ -57,6 +58,9 @@
         </div>
     </div>
     <div id="theAnswer">
+            <div class="row">
+                    <div class="col-md-12" id="youAnswered"></div>
+                </div>
         <div class="row">
             <div class="col-md-12" id="answerRevealed"></div>
         </div>
@@ -69,10 +73,10 @@
         <div id="scoreBox">
         <div class = "row">
             <div class = "col-md-6">
-                <span id="rights-text">yooohooo</span>
+                <span id="rights-text"></span>
             </div>
             <div class = "col-md-6">
-                <span id="wrongs-text">yooohooooo</span>
+                <span id="wrongs-text"></span>
             </div>
         </div>
     </div>

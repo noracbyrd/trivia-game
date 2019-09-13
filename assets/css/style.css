@@ -1,5 +1,9 @@
 header {
     text-align: center;
+    font-family: 'Sacramento', cursive;
+}
+#start{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 #questionBox {
     text-align: center;

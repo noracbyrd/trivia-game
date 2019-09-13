@@ -1,14 +1,42 @@
 // Declare global variables
 var rightCounter = 0;
 var wrongCounter = 0;
+var unAnsweredCounter = 0;
 // Placeholder for how long they have to answer the question
-var jeopardy;
 // Placeholder for timer to move to the next question (whether they got it right or wrong)
 // var nextQuestion = function (question1, question2) {
 //     $(question1).hide();
 //     $(question2).show();
 // }
 var questionNumber = 0;
+
+//  Interval Demonstration
+//  Set our number counter to 100.
+var jeopardy = 10;
+
+//  Variable that will hold our interval ID when we execute
+//  the "run" function
+var intervalId;
+
+//  When the resume button gets clicked, execute the run function.
+
+//  The run function sets an interval
+//  that runs the decrement function once a second.
+//  *****BUG FIX******** 
+//  Clearing the intervalId prior to setting our new intervalId will not allow multiple instances.
+function runClock() {
+    clearInterval(intervalId);
+    intervalId = setInterval(decrement, 1000);
+}
+
+function stopClock() {
+    //  Clears our intervalId
+    //  We just pass the name of the interval
+    //  to the clearInterval function.
+    clearInterval(intervalId);
+  }
+
+
 
 $("#rights-text").text("You got " + rightCounter + " right!");
 $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
@@ -31,7 +59,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("The Princess and the Frog");
             $("#answerImage").html('<img src="assets/images/princessandthefrog.jpg">');
-            setTimeout(nextQuestion,5000);
+            setTimeout(nextQuestion, 5000);
         }
     },
     {
@@ -47,7 +75,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("Lady and the Tramp");
             $("#answerImage").html('<img src="assets/images/ladyandthetramp.jpg">');
-            setTimeout(nextQuestion,5000);
+            setTimeout(nextQuestion, 5000);
         }
     },
     {
@@ -63,7 +91,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("Enchanted");
             $("#answerImage").html('<img src="assets/images/enchanted.jpg">');
-            setTimeout(nextQuestion,5000);
+            setTimeout(nextQuestion, 5000);
         }
     },
     {
@@ -79,10 +107,31 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("Cinderella");
             $("#answerImage").html('<img src="assets/images/cinderella.jpg">');
-            setTimeout(nextQuestion,5000);
         }
     }
 ];
+
+//  The decrement function.
+function decrement() {
+    //  Decrease number by one.
+    jeopardy--;
+    //  Show the number in the #show-number tag.
+    $("#timeLeft").html("<p>Time Left: " + jeopardy + "</>");
+    //  Once number hits zero...
+    if (jeopardy === 0) {
+        //  ...run the stop function.
+        stopClock();
+        if (questionNumber < triviaGame.length) {
+            triviaGame[questionNumber].answerScreen();
+            $("#youAnswered").text("Time's Up!");
+            questionNumber++;
+            setTimout(nextQuestion,3000);
+        } else if (questionNumber === triviaGame.length-1) {
+            triviaGame[questionNumber].answerScreen();
+            $("#youAnswered").text("Game OVer!");
+        }
+    };
+}
 
 
 
@@ -94,7 +143,10 @@ var nextQuestion = function () {
     $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
     $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
     $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+    jeopardy=10;
+    runClock();
 }
+
 
 
 
@@ -106,6 +158,9 @@ $("#start").on("click", function () {
     $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie);
     $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie);
     $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie);
+    $("#timeLeft").show();
+    runClock();
+    $("#start").hide();
 
 });
 
@@ -122,81 +177,29 @@ $(".answer").on("click", function () {
         if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === true) {
             rightCounter++;
             $("#rights-text").text("You got " + rightCounter + " right!");
+            $("#youAnswered").text("Correct!");
             questionNumber++;
-            if (questionNumber === triviaGame.length){
+            stopClock();
+            if (questionNumber === triviaGame.length) {
+                triviaGame[questionNumber - 1].answerScreen();
                 $("#scoreBox").show();
             } else {
-                setTimeout(triviaGame[questionNumber-1].answerScreen(),3000);
+                setTimeout(triviaGame[questionNumber - 1].answerScreen(), 1000);
             }
         } else if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === false) {
             // $(".selected").css("background-color", "red");
             wrongCounter++;
+            stopClock();
             $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+            $("#youAnswered").text("Incorrect!");
             questionNumber++;
-            if (questionNumber === triviaGame.length){
+            if (questionNumber === triviaGame.length) {
+                triviaGame[questionNumber - 1].answerScreen();
                 $("#scoreBox").show();
             } else {
-            setTimeout(triviaGame[questionNumber-1].answerScreen(),3000);
+                setTimeout(triviaGame[questionNumber - 1].answerScreen(), 1000);
             }
 
+        }
     }
-}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-//buttons clicked right or wrong
-// $(".wrongAnswer1").on("click", function () {
-//     $(".wrongAnswer1").css("background-color", "red");
-//     $("#correctAnswer1").css("background-color", "green");
-//     wrongCounter++;
-//     setTimeout(nextQuestion, 5000, "#question1", "#question2");
-
-// });
-
-// $("#correctAnswer1").on("click", function () {
-//     $(".wrongAnswer1").css("background-color", "red");
-//     $("#correctAnswer1").css("background-color", "green");
-//     rightCounter++;
-// });
-
-// $(".wrongAnswer2").on("click", function () {
-//     $(".wrongAnswer2").css("background-color", "red");
-//     $("#correctAnswer2").css("background-color", "green");
-//     wrongCounter++;
-// });
-
-// $("#correctAnswer2").on("click", function () {
-//     $(".wrongAnswer2").css("background-color", "red");
-//     $("#correctAnswer2").css("background-color", "green");
-//     rightCounter++;
-// });
-
-
-
-
-
-
-
-
-
-
-
-//pseudo code (before adding timers, lawd)
-
-// Start function: generate the first question. need to show the div, and also push the information from the object for question 1 into the respective div places. ...is this possible? lol I hope so
-// Need to create a clear function that resets all the question div to prepare it for the next question
-
-
-
-

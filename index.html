@@ -17,16 +17,24 @@
     <div class="container">
         <header>
             <div class="row">
-                <div class=col-md-12>
+                <div class="col-md-12">
                     <h1>DISNEY SONG TRIVIA GAME</h1>
+                    <button id="start">Start Quiz!</button>
                 </div>
-                <button id="start">Start Quiz!</button>
+                
             </div>
         </header>
         <br>
         <br>
-        <div><span id="theQuestion"></span></div>
-        <div id="question1">
+        <div class="row">
+            <div class="col-md-12">
+                Time Left: 30s
+            </div>
+        </div>
+        <br>
+        <br>
+        <div id="theQuestion">
+        <div id="quiz">
             <div class="row">
                 <div class="col-md-12" id="questionBox">
                     <h3><span id="question-text">What movie is "Almost There" from?</span></h3>
@@ -47,6 +55,27 @@
                 <!--empty-->
             </div>
         </div>
+    </div>
+    <div id="theAnswer">
+        <div class="row">
+            <div class="col-md-12" id="answerRevealed"></div>
+        </div>
+        <div class="row">
+                <div class="col-md-12" id="answerImage"></div>
+            </div>
+    </div>
+        <br>
+        <br>
+        <div id="scoreBox">
+        <div class = "row">
+            <div class = "col-md-6">
+                <span id="rights-text">yooohooo</span>
+            </div>
+            <div class = "col-md-6">
+                <span id="wrongs-text">yooohooooo</span>
+            </div>
+        </div>
+    </div>
         <!-- <div id="question2">
                 <div class="row">
                     <div class="col-md-12" id="questionBox">

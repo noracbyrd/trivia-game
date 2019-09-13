@@ -10,6 +10,12 @@ var jeopardy;
 // }
 var questionNumber = 0;
 
+$("#rights-text").text("You got " + rightCounter + " right!");
+$("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+
+$("#theQuestion").hide();
+$("#scoreBox").hide();
+$("#theAnswer").hide();
 
 var triviaGame = [
     {
@@ -20,15 +26,29 @@ var triviaGame = [
             { number: "thirdAnswer", movie: "Snow White and the Seven Dwarfs", correct: false },
             { number: "fourthAnswer", movie: "Oliver and Company", correct: false }
         ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("The Princess and the Frog");
+            $("#answerImage").html('<img src="assets/images/princessandthefrog.jpg">');
+            setTimeout(nextQuestion,5000);
+        }
     },
     {
         question: 'What movie is "Bella Note" from?',
         answers: [
-            { movie: "Sleeping Beauty", correct: false },
-            { movie: "Beauty and the Beast", correct: false },
-            { movie: "Lady and the Tramp", correct: true },
-            { movie: "Toy Story", correct: false }
+            { number: "firstAnswer", movie: "Sleeping Beauty", correct: false },
+            { number: "secondAnswer", movie: "Beauty and the Beast", correct: false },
+            { number: "thirdAnswer", movie: "Lady and the Tramp", correct: true },
+            { number: "fourthAnswer", movie: "Toy Story", correct: false }
         ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("Lady and the Tramp");
+            $("#answerImage").html('<img src="assets/images/ladyandthetramp.jpg">');
+            setTimeout(nextQuestion,5000);
+        }
     },
     {
         question: 'What movie is "That\'s How You Know" from?',
@@ -38,100 +58,132 @@ var triviaGame = [
             { number: "thirdAnswer", movie: "Pete's Dragon", correct: false },
             { number: "fourthAnswer", movie: "Mulan", correct: false }
         ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("Enchanted");
+            $("#answerImage").html('<img src="assets/images/enchanted.jpg">');
+            setTimeout(nextQuestion,5000);
+        }
     },
     {
         question: 'What movie is "So This Is Love" from?',
         answers: [
-            { movie: "Bambi", correct: false },
-            { movie: "The Little Mermaid", correct: false },
-            { movie: "Pocahontas", correct: false },
-            { movie: "Cinderella", correct: true }
+            { number: "firstAnswer", movie: "Bambi", correct: false },
+            { number: "secondAnswer", movie: "The Little Mermaid", correct: false },
+            { number: "thirdAnswer", movie: "Pocahontas", correct: false },
+            { number: "fourthAnswer", movie: "Cinderella", correct: true }
         ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("Cinderella");
+            $("#answerImage").html('<img src="assets/images/cinderella.jpg">');
+            setTimeout(nextQuestion,5000);
+        }
     }
-]
+];
 
-$("#question").hide();
-// $("#question2").hide();
 
-//reference for later:     $("p").hide();
-//notes: am able to hide elements with jquery! so should be able to include hide on the timer!!
-//will have to figure out how to keep them hidden when the game starts, maybe they are all hidden at the start or something
-//might have to be more specific for onclicks - thinking each question box needs separate identifiers cuz right now anything wrong is going wrong if you click one wrong
 
-$("#start").on("click",function() {
-    $("#theQuestion").html("#question1");
-    $("#question1").show();
+var nextQuestion = function () {
+    $("#theAnswer").hide();
+    $("#theQuestion").show();
+    $("#question-text").html(triviaGame[questionNumber].question);
+    $("#firstAnswer").html(triviaGame[questionNumber].answers[0].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+    $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+    $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+    $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+}
+
+
+
+$("#start").on("click", function () {
+
+    $("#theQuestion").show();
     $("#question-text").html(triviaGame[questionNumber].question);
     $("#firstAnswer").html(triviaGame[questionNumber].answers[0].movie);
     $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie);
     $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie);
     $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie);
+
 });
 
-//onclick with object
-// need a way to identify the button as the button with the right answer versus wrong answer--
-//USE JQUERY TO APPEND A CLASS!!! AND THEN USE THAT CLASS TO CHANGE THE COLOR!!!!!
-$(".answer").on("click", function () {  
+
+
+
+
+
+$(".answer").on("click", function () {
     $(this).removeClass("answer").addClass("selected");
     var chosen = $(this).attr("id");
     console.log(chosen);
     for (var i in triviaGame[questionNumber].answers) {
         if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === true) {
-    //     //var selected = triviaGame[questionNumber].answers[i].correct;
-    //     //console.log($("selected");
-    //     console.log(triviaGame[questionNumber].answers[i].correct); 
-    //     if (triviaGame[questionNumber].answers[i].correct === true) {
-    //         //get id of answer
-            $(".selected").css("background-color","green");
-            $(".answer").css("background-color","red");
-        } else if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === false){
-            $(".selected").css("background-color","red");
-        }
-    //         //$().removeClass("answer").addClass( "rightColor" );
-    //         // var currentQuestion = $(this).attr('id');
-    //         // console.log(currentQuestion);
-    //         $(".answer").css("background-color", "red");
-    //         rightCounter++;
-    //         // setTimeout(nextQuestion, 3000);
-    //     }
-    //     else if (triviaGame[questionNumber].answers[i].correct === false) {
-    //         $(".selected").css("background-color", "green");
-    //         wrongCounter++;
-    //         // setTimeout(nextQuestion, 3000);
-    //     }
-    }    
-    // }
+            rightCounter++;
+            $("#rights-text").text("You got " + rightCounter + " right!");
+            questionNumber++;
+            if (questionNumber === triviaGame.length){
+                $("#scoreBox").show();
+            } else {
+                setTimeout(triviaGame[questionNumber-1].answerScreen(),3000);
+            }
+        } else if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === false) {
+            // $(".selected").css("background-color", "red");
+            wrongCounter++;
+            $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+            questionNumber++;
+            if (questionNumber === triviaGame.length){
+                $("#scoreBox").show();
+            } else {
+            setTimeout(triviaGame[questionNumber-1].answerScreen(),3000);
+            }
+
+    }
+}
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 //buttons clicked right or wrong
-$(".wrongAnswer1").on("click", function () {
-    $(".wrongAnswer1").css("background-color", "red");
-    $("#correctAnswer1").css("background-color", "green");
-    wrongCounter++;
-    setTimeout(nextQuestion, 5000, "#question1", "#question2");
+// $(".wrongAnswer1").on("click", function () {
+//     $(".wrongAnswer1").css("background-color", "red");
+//     $("#correctAnswer1").css("background-color", "green");
+//     wrongCounter++;
+//     setTimeout(nextQuestion, 5000, "#question1", "#question2");
 
-});
+// });
 
-$("#correctAnswer1").on("click", function () {
-    $(".wrongAnswer1").css("background-color", "red");
-    $("#correctAnswer1").css("background-color", "green");
-    rightCounter++;
-});
+// $("#correctAnswer1").on("click", function () {
+//     $(".wrongAnswer1").css("background-color", "red");
+//     $("#correctAnswer1").css("background-color", "green");
+//     rightCounter++;
+// });
 
-$(".wrongAnswer2").on("click", function () {
-    $(".wrongAnswer2").css("background-color", "red");
-    $("#correctAnswer2").css("background-color", "green");
-    wrongCounter++;
-});
+// $(".wrongAnswer2").on("click", function () {
+//     $(".wrongAnswer2").css("background-color", "red");
+//     $("#correctAnswer2").css("background-color", "green");
+//     wrongCounter++;
+// });
 
-$("#correctAnswer2").on("click", function () {
-    $(".wrongAnswer2").css("background-color", "red");
-    $("#correctAnswer2").css("background-color", "green");
-    rightCounter++;
-});
+// $("#correctAnswer2").on("click", function () {
+//     $(".wrongAnswer2").css("background-color", "red");
+//     $("#correctAnswer2").css("background-color", "green");
+//     rightCounter++;
+// });
 
 
-    
+
 
 
 

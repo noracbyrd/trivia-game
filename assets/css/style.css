@@ -2,13 +2,13 @@ header {
     text-align: center;
     font-family: 'Sacramento', cursive;
 }
-#start{
+#start,#playAgain{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 #questionBox {
     text-align: center;
 }
-.col-md-6{
+.col-md-4{
     text-align: center;
 }
 .col-md-12{

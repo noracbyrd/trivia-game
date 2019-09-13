@@ -1,18 +1,12 @@
 // Declare global variables
 var rightCounter = 0;
 var wrongCounter = 0;
-var unAnsweredCounter = 0;
-// Placeholder for how long they have to answer the question
-// Placeholder for timer to move to the next question (whether they got it right or wrong)
-// var nextQuestion = function (question1, question2) {
-//     $(question1).hide();
-//     $(question2).show();
-// }
+var unansweredCounter = 0;
 var questionNumber = 0;
 
 //  Interval Demonstration
 //  Set our number counter to 100.
-var jeopardy = 10;
+var jeopardy = 11;
 
 //  Variable that will hold our interval ID when we execute
 //  the "run" function
@@ -44,6 +38,7 @@ $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
 $("#theQuestion").hide();
 $("#scoreBox").hide();
 $("#theAnswer").hide();
+$("#playAgain").hide();
 
 var triviaGame = [
     {
@@ -59,7 +54,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("The Princess and the Frog");
             $("#answerImage").html('<img src="assets/images/princessandthefrog.jpg">');
-            setTimeout(nextQuestion, 5000);
+            setTimeout(nextQuestion, 3000);
         }
     },
     {
@@ -75,7 +70,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("Lady and the Tramp");
             $("#answerImage").html('<img src="assets/images/ladyandthetramp.jpg">');
-            setTimeout(nextQuestion, 5000);
+            setTimeout(nextQuestion, 3000);
         }
     },
     {
@@ -91,7 +86,7 @@ var triviaGame = [
             $("#theAnswer").show();
             $("#answerRevealed").text("Enchanted");
             $("#answerImage").html('<img src="assets/images/enchanted.jpg">');
-            setTimeout(nextQuestion, 5000);
+            setTimeout(nextQuestion, 3000);
         }
     },
     {
@@ -120,20 +115,34 @@ function decrement() {
     //  Once number hits zero...
     if (jeopardy === 0) {
         //  ...run the stop function.
+        unansweredCounter++;
         stopClock();
-        if (questionNumber < triviaGame.length) {
+    
+        $("#rights-text").text("You got " + rightCounter + " right!");
+        $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+        if (questionNumber < triviaGame.length-1) {
             triviaGame[questionNumber].answerScreen();
             $("#youAnswered").text("Time's Up!");
+          
+            $("#unanswereds-text").text("You left " + unansweredCounter + " unanswered!");
+            $("#rights-text").text("You got " + rightCounter + " right!");
+        $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
             questionNumber++;
             setTimout(nextQuestion,3000);
         } else if (questionNumber === triviaGame.length-1) {
             triviaGame[questionNumber].answerScreen();
-            $("#youAnswered").text("Game OVer!");
+      
+            $("#unanswereds-text").text("You left " + unansweredCounter + " unanswered!");
+            $("#rights-text").text("You got " + rightCounter + " right!");
+        $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+            $("#youAnswered").text("Game Over!");
+            $("#scoreBox").show();
+            $("#playAgain").show();
         }
     };
 }
 
-
+// unanswereds-text
 
 var nextQuestion = function () {
     $("#theAnswer").hide();
@@ -143,7 +152,7 @@ var nextQuestion = function () {
     $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
     $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
     $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
-    jeopardy=10;
+    jeopardy=11;
     runClock();
 }
 
@@ -151,7 +160,7 @@ var nextQuestion = function () {
 
 
 $("#start").on("click", function () {
-
+    runClock();
     $("#theQuestion").show();
     $("#question-text").html(triviaGame[questionNumber].question);
     $("#firstAnswer").html(triviaGame[questionNumber].answers[0].movie);
@@ -159,12 +168,25 @@ $("#start").on("click", function () {
     $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie);
     $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie);
     $("#timeLeft").show();
-    runClock();
     $("#start").hide();
+    $("#playAgain").hide();
 
 });
 
+$("#playAgain").on("click", function () {
+    $("#theQuestion").hide();
+    $("#theAnswer").hide();
+    $("#scoreBox").hide();
+    $("#timeLeft").hide();
+    rightCounter = 0;
+    wrongCounter = 0;
+    unansweredCounter = 0;
+    questionNumber = 0;
+    jeopardy = 11;
+    $("#start").show();
+    $("#playAgain").hide();
 
+});
 
 
 
@@ -172,30 +194,36 @@ $("#start").on("click", function () {
 $(".answer").on("click", function () {
     $(this).removeClass("answer").addClass("selected");
     var chosen = $(this).attr("id");
-    console.log(chosen);
     for (var i in triviaGame[questionNumber].answers) {
         if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === true) {
             rightCounter++;
             $("#rights-text").text("You got " + rightCounter + " right!");
+            $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
+            $("#unanswereds-text").text("You left " + unansweredCounter + " unanswered!");
             $("#youAnswered").text("Correct!");
             questionNumber++;
             stopClock();
             if (questionNumber === triviaGame.length) {
                 triviaGame[questionNumber - 1].answerScreen();
                 $("#scoreBox").show();
+                $("#playAgain").show();
+
             } else {
                 setTimeout(triviaGame[questionNumber - 1].answerScreen(), 1000);
             }
         } else if (chosen === triviaGame[questionNumber].answers[i].number && triviaGame[questionNumber].answers[i].correct === false) {
-            // $(".selected").css("background-color", "red");
             wrongCounter++;
             stopClock();
+            $("#rights-text").text("You got " + rightCounter + " right!");
             $("#wrongs-text").text("You got " + wrongCounter + " wrong!");
-            $("#youAnswered").text("Incorrect!");
+            $("#unanswereds-text").text("You left " + unansweredCounter + " unanswered!");
+           $("#youAnswered").text("Incorrect!");
             questionNumber++;
             if (questionNumber === triviaGame.length) {
                 triviaGame[questionNumber - 1].answerScreen();
                 $("#scoreBox").show();
+                $("#playAgain").show();
+                
             } else {
                 setTimeout(triviaGame[questionNumber - 1].answerScreen(), 1000);
             }

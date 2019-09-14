@@ -1,19 +1,36 @@
+body{
+    background-image: url("../images/background.png");
+    background-size: cover;
+    
+}
+.btn-primary {
+    background-color: #9763d3
+}
+.btn-primary:hover {
+    background-color: #dd6cb4;
+}
 header {
     text-align: center;
     font-family: 'Sacramento', cursive;
 }
+h1{
+    font-weight: bolder;
+}
+h2 {
+    font-family: 'Satisfy', cursive;
+}
 #start,#playAgain{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
 }
 #questionBox {
     text-align: center;
 }
 .col-md-4{
     text-align: center;
+    font-weight: bold;
 }
 .col-md-12{
     text-align: center;
-}
-.answer:hover {
-    background-color: #5ea7fa;
+    font-weight: bold;
 }

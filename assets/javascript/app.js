@@ -90,10 +90,42 @@ var triviaGame = [
         }
     },
     {
+        question: 'What movie is "How Far I\'ll Go" from?',
+        answers: [
+            { number: "firstAnswer", movie: "Moana", correct: true },
+            { number: "secondAnswer", movie: "Aristocats", correct: false },
+            { number: "thirdAnswer", movie: "The Jungle Book", correct: false },
+            { number: "fourthAnswer", movie: "The Rescuers", correct: false }
+        ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("Moana");
+            $("#answerImage").html('<img src="assets/images/moana.jpg">');
+            setTimeout(nextQuestion, 3000);
+        }
+    },
+    {
+        question: 'What movie is "Fathoms Below" from?',
+        answers: [
+            { number: "firstAnswer", movie: "The Black Cauldron", correct: false },
+            { number: "secondAnswer", movie: "The Little Mermaid", correct: true },
+            { number: "thirdAnswer", movie: "Brave", correct: false },
+            { number: "fourthAnswer", movie: "Dumbo", correct: false }
+        ],
+        answerScreen: function () {
+            $("#theQuestion").hide();
+            $("#theAnswer").show();
+            $("#answerRevealed").text("The Little Mermaid");
+            $("#answerImage").html('<img src="assets/images/littlemermaid.jpg">');
+            setTimeout(nextQuestion, 3000);
+        }
+    },
+    {
         question: 'What movie is "So This Is Love" from?',
         answers: [
             { number: "firstAnswer", movie: "Bambi", correct: false },
-            { number: "secondAnswer", movie: "The Little Mermaid", correct: false },
+            { number: "secondAnswer", movie: "Frozen", correct: false },
             { number: "thirdAnswer", movie: "Pocahontas", correct: false },
             { number: "fourthAnswer", movie: "Cinderella", correct: true }
         ],
@@ -147,10 +179,10 @@ var nextQuestion = function () {
     $("#theAnswer").hide();
     $("#theQuestion").show();
     $("#question-text").html(triviaGame[questionNumber].question);
-    $("#firstAnswer").html(triviaGame[questionNumber].answers[0].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
-    $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
-    $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
-    $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie).removeClass("selected").addClass(".answer").css("background-color", "#007bff");
+    $("#firstAnswer").html(triviaGame[questionNumber].answers[0].movie).removeClass("selected").addClass(".answer")
+    $("#secondAnswer").html(triviaGame[questionNumber].answers[1].movie).removeClass("selected").addClass(".answer")
+    $("#thirdAnswer").html(triviaGame[questionNumber].answers[2].movie).removeClass("selected").addClass(".answer")
+    $("#fourthAnswer").html(triviaGame[questionNumber].answers[3].movie).removeClass("selected").addClass(".answer")
     jeopardy = 11;
     runClock();
 }

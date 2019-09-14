@@ -9,6 +9,19 @@ body{
 .btn-primary:hover {
     background-color: #dd6cb4;
 }
+#start{
+    background: url("../images/button.png") no-repeat;
+    cursor:pointer;
+    background-blend-mode: overlay;
+    border: none;
+    padding: 15px 20px 17px;
+}
+#start:active { /* use Dot here */  
+    background: url("../images/button.png") no-repeat;
+    background-blend-mode: overlay;
+    border: none;
+}
+ 
 header {
     text-align: center;
     font-family: 'Sacramento', cursive;
@@ -25,6 +38,10 @@ h2 {
 }
 #questionBox {
     text-align: center;
+    background-color: #f78bd050;
+    padding:20px;
+    border: 1px solid #f78bd050;
+    border-radius: 10px;
 }
 .col-md-4{
     text-align: center;
@@ -33,4 +50,10 @@ h2 {
 .col-md-12{
     text-align: center;
     font-weight: bold;
+}
+#answerBox{
+    background-color: #f78bd050;
+    padding:20px;
+    border: 1px solid #f78bd050;
+    border-radius: 10px;
 }
